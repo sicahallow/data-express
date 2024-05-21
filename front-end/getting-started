@@ -1,0 +1,11 @@
+cd .\front-end\
+npm init
+    go through the prompts
+       ensure entry-point is "front-end.js"
+       make git repository: https://github.com/sicahallow/data-express.git
+afterwards, go back to root directory of project
+    cd ..
+install nodemon in the data-express folder, but make it globally available
+    npm i -g nodemon
+install everything else
+    npm i -a

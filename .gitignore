@@ -131,3 +131,6 @@ dist
 
 #node modules folder
 node_modules
+
+#package-lock.json folder
+package-lock.json
