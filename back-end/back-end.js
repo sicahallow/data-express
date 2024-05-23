@@ -3,7 +3,7 @@ const { DAL } = require("./data-access-layer/mongo-dal")
 
 const PORT = 4000
 const app = express()
-// const defaultJokeAmount = 10
+const defaultUserAmount = 10
 
 //express config
 app.set("view engine", "ejs")
@@ -42,20 +42,12 @@ app.get('/questions', async (req, res) => {
     }
 })
 
-app.get('/users', async (req, res) => {
+app.get('/getOneUser', async (req, res) => {
     let username = "username1"
     let user = await DAL.getUserByUsername(username)
-    let questions = await DAL.getAllQuestions()
 
     // console.log("user: " + JSON.stringify(user[0].answers))
     // console.log("questions: " + JSON.stringify(questions[0].questions))
-
-    let jsonResponse = [
-        {
-            results: ""
-        }
-    ]
-
 
     let response = {
         results: user
@@ -64,30 +56,47 @@ app.get('/users', async (req, res) => {
 
 })
 
+app.get('/getUsers', async (req, res) => {
+    const amountToReturn = parseInt(req.query.amount) || defaultUserAmount
+
+    let users = await DAL.getAllUsers(amountToReturn)
+    if (amountToReturn > defaultUserAmount) {
+        users = users.slice(0, defaultUserAmount)
+    }
+
+    let response = {
+        count: users.length,
+        results: users
+    }
+    res.json(response)
+})
+
 app.post('/register', async (req, res) => {
     let newUser = {
-        username: "username1",
-        password: "password1",
-        email: "theuser@user.com",
-        age: 21,
+        username: "XXXsupakillaXXX",
+        password: "supersecret-PASS",
+        email: "thealmightyone21@yahoo.com",
+        age: 19,
         answers: {
-            "this is question 2": "answer to question 2",
-            "this is question 3": "answer to question 3",
-            "this is question 6": "answer to question 6"
-        }
+            "this is question 1": "answer to question 1",
+            "this is question 4": "answer to question 4",
+            "this is question 5": "answer to question 5"
+        },
+        userID: 0
+    }//replace with req.body
 
-}
     try {
-        if (newJoke.id === 0) {
-            let jokes = await DAL.getJokes()
+        if (newUser.userID === 0) {
+            let allUsers = await DAL.getAllUsers()
             let response = {
-                count: jokes.length,
-                results: jokes,
+                count: allUsers.length,
+                results: allUsers,
             }
-            newJoke.id = (response["count"] + 1)
+            newUser.userID = (response["count"] + 1)
 
         }
-        await DAL.create(newJoke)
+        await DAL.registerNewUser(newUser)
+        res.send("User registered!")
     } catch (error) {
         console.error(error);
     }

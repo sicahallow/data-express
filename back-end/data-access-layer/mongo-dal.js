@@ -11,7 +11,9 @@ exports.DAL = {
         const database = client.db(dbName)
         const collection = database.collection(questionCollection)
 
-        return await collection.find().toArray()
+        let questions = await collection.find().toArray()
+        await client.close()
+        return questions
     },
     getUserByUsername: async function(username){
         await client.connect()
@@ -23,6 +25,28 @@ exports.DAL = {
             query.username = username
         }
 
-        return await collection.find(query).toArray()
+        let user = await collection.find().toArray()
+        await client.close()
+
+        return user
+
+    },
+    getAllUsers: async function(amount){
+        await client.connect()
+        const database = client.db(dbName)
+        const collection = database.collection(userCollection)
+
+        let allUsers = await collection.find({limit: amount}).toArray()
+        await client.close()
+
+        return allUsers
+    },
+    registerNewUser: async function(newUser){
+        await client.connect()
+        const database = client.db(dbName)
+        const collection = database.collection(userCollection)
+
+        await collection.insertOne(newUser)
+        await client.close()
     }
 }
