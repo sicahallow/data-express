@@ -12,8 +12,7 @@ exports.DAL = {
             const database = client.db(dbName)
             const collection = database.collection(questionCollection)
 
-            let questions = await collection.find().toArray()
-            return questions
+            return await collection.find().toArray()
 
         } catch (err) {
             console.error(err);
@@ -33,8 +32,7 @@ exports.DAL = {
             if (username) {
                 query.username = username
             }
-            let user = await collection.find(query).toArray()
-            return user
+            return await collection.find(query).toArray()
 
         } catch (err) {
             console.error(err);
@@ -48,8 +46,7 @@ exports.DAL = {
             const database = client.db(dbName)
             const collection = database.collection(userCollection)
 
-            let allUsers = await collection.find({limit: amount}).toArray()
-            return allUsers
+            return await collection.find({limit: amount}).toArray()
 
         } catch (err) {
             console.log(err)
