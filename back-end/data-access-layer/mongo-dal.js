@@ -7,46 +7,70 @@ const client = new MongoClient(uri) //this client allows us to talk to database
 
 exports.DAL = {
     getAllQuestions: async function(){
-        await client.connect()
-        const database = client.db(dbName)
-        const collection = database.collection(questionCollection)
+        try {
+            await client.connect()
+            const database = client.db(dbName)
+            const collection = database.collection(questionCollection)
 
-        let questions = await collection.find().toArray()
-        await client.close()
-        return questions
-    },
-    getUserByUsername: async function(username){
-        await client.connect()
-        const database = client.db(dbName)
-        const collection = database.collection(userCollection)
+            let questions = await collection.find().toArray()
+            return questions
 
-        let query = {}
-        if (username) {
-            query.username = username
+        } catch (err) {
+            console.error(err);
+
+        } finally {
+            await client.close()
         }
 
-        let user = await collection.find().toArray()
-        await client.close()
+    },
+    getUserByUsername: async function(username){
+        try {
+            await client.connect()
+            const database = client.db(dbName)
+            const collection = database.collection(userCollection)
 
-        return user
+            let query = {}
+            if (username) {
+                query.username = username
+            }
+            let user = await collection.find(query).toArray()
+            return user
 
+        } catch (err) {
+            console.error(err);
+        } finally {
+            await client.close()
+        }
     },
     getAllUsers: async function(amount){
-        await client.connect()
-        const database = client.db(dbName)
-        const collection = database.collection(userCollection)
+        try {
+            await client.connect()
+            const database = client.db(dbName)
+            const collection = database.collection(userCollection)
 
-        let allUsers = await collection.find({limit: amount}).toArray()
-        await client.close()
+            let allUsers = await collection.find({limit: amount}).toArray()
+            return allUsers
 
-        return allUsers
+        } catch (err) {
+            console.log(err)
+
+        } finally {
+            await client.close()
+        }
     },
     registerNewUser: async function(newUser){
-        await client.connect()
-        const database = client.db(dbName)
-        const collection = database.collection(userCollection)
+        try {
+            await client.connect()
+            const database = client.db(dbName)
+            const collection = database.collection(userCollection)
 
-        await collection.insertOne(newUser)
-        await client.close()
+            await collection.insertOne(newUser)
+
+        } catch (err) {
+            console.log(err)
+
+        } finally {
+            await client.close()
+        }
     }
 }
