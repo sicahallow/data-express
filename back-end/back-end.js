@@ -14,23 +14,8 @@ app.use(express.urlencoded({extended: true}))
 //routes
 app.get('/questions', async (req, res) => {
 
-    //defining queries, where left of || is the value of the query and right of || is the default if it is undefined
-    // const limit = parseInt(req.query.limit) || defaultJokeAmount  // default to 15 if not provided
-    // const category = req.query.category || false // default to false if not provided
-
     try {
         let questions = await DAL.getAllQuestions()
-
-        // //handles category query, and filters out the jokes that don't equal the specified category
-        // if (category) {
-        //     jokes.filter(joke => joke.category === category)
-        // }
-
-        // //if the limit query is bigger than the default amount (defaultJokeAmount), jokes will be sliced and return only
-        // //defaultJokeAmount amount of jokes
-        // if (limit > defaultJokeAmount) {
-        //     jokes = jokes.slice(0, limit)
-        // }
 
         let response = {
             results: questions
@@ -43,32 +28,40 @@ app.get('/questions', async (req, res) => {
 })
 
 app.get('/getOneUser', async (req, res) => {
-    let username = "username1"
-    let user = await DAL.getUserByUsername(username)
 
-    // console.log("user: " + JSON.stringify(user[0].answers))
-    // console.log("questions: " + JSON.stringify(questions[0].questions))
+    try {
+        let username = req.query.username
+        let user = await DAL.getUserByUsername(username)
 
-    let response = {
-        results: user
+        let response = {
+            results: user
+        }
+        res.json(response)
+
+    } catch (err) {
+        console.log(err)
     }
-    res.json(response)
 
 })
 
 app.get('/getUsers', async (req, res) => {
-    const amountToReturn = parseInt(req.query.amount) || defaultUserAmount
+    try {
+        const amountToReturn = parseInt(req.query.amount) || defaultUserAmount
 
-    let users = await DAL.getAllUsers(amountToReturn)
-    if (amountToReturn > defaultUserAmount) {
-        users = users.slice(0, defaultUserAmount)
-    }
+        let users = await DAL.getAllUsers(amountToReturn)
+        if (amountToReturn > defaultUserAmount) {
+            users = users.slice(0, defaultUserAmount)
+        }
 
-    let response = {
-        count: users.length,
-        results: users
+        let response = {
+            count: users.length,
+            results: users
+        }
+        res.json(response)
+
+    } catch (err) {
+        console.log(err)
     }
-    res.json(response)
 })
 
 app.post('/register', async (req, res) => {
@@ -97,12 +90,13 @@ app.post('/register', async (req, res) => {
         }
         await DAL.registerNewUser(newUser)
         res.send("User registered!")
-    } catch (error) {
-        console.error(error);
+
+    } catch (err) {
+        console.error(err)
     }
 })
 
 //start express
 app.listen(PORT, (req, res) => {
-    console.log(`Express listening on http://localhost:${PORT}`);
-});
+    console.log(`Express listening on http://localhost:${PORT}`)
+})
