@@ -7,11 +7,11 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded());
 
-// let sessionOptions={
-//     secret:"ChunckBullDog",
-//     cookie:{}
-// }
-// app.use(session(sessionOptions)) //makes session work
+let sessionOptions={
+    secret:"ChunckBullDog",
+    cookie:{}
+}
+app.use(session(sessionOptions)) //makes session work
 app.get('/register', (req, res) => {
     
     // console.log("Register REQUEST",req.session.username);
