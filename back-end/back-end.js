@@ -1,5 +1,6 @@
 const express = require("express")
 const { DAL } = require("./data-access-layer/mongo-dal")
+const cors = require('cors')
 
 const PORT = 4000
 const app = express()
@@ -10,6 +11,8 @@ app.set("view engine", "ejs")
 app.use(express.static("public"))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+
+app.use(cors({'origin': '*'}));
 
 //routes
 app.get('/questions', async (req, res) => {
