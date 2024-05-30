@@ -52,6 +52,8 @@ app.post('/register', async (req, res) => {
     //tests if userDataToSave is correct/functional
     console.log(userDataToSave)
 
+    //TODO: make fetch call or whatever to call the api
+
 })
 
 
