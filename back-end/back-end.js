@@ -59,18 +59,19 @@ app.get('/stats', async (req, res) => {
 })
 
 app.post('/register', async (req, res) => {
-    let newUser = {
-        username: "XXXsupakillaXXX",
-        password: "supersecret-PASS",
-        email: "thealmightyone21@yahoo.com",
-        age: 19,
-        answers: {
-            "this is question 1": "answer to question 1",
-            "this is question 4": "answer to question 4",
-            "this is question 5": "answer to question 5"
-        },
-        userID: 0
-    }//replace with req.body
+    // let newUser = {
+    //     username: "XXXsupakillaXXX",
+    //     password: "supersecret-PASS",
+    //     email: "thealmightyone21@yahoo.com",
+    //     age: 19,
+    //     answers: {
+    //         "this is question 1": "answer to question 1",
+    //         "this is question 4": "answer to question 4",
+    //         "this is question 5": "answer to question 5"
+    //     },
+    //     userID: 0
+    // }
+    let newUser = req.body
 
     try {
         if (newUser.userID === 0) {

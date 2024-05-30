@@ -50,7 +50,8 @@ app.post('/register', async (req, res) => {
         password: hashedPassword,
         email: registeredUser.newEmail,
         age: registeredUser.newAge,
-        answers: answers
+        answers: answers,
+        userID: 0
     }
     //tests if userDataToSave is correct/functional
     console.log(userDataToSave)
