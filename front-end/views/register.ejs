@@ -3,46 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <link rel="stylesheet" href="/css/register.css"/>
     <script src="/js/client-validation.js" defer></script>
 </head>
 <body>
     <h1>Register</h1>
-    <form action="/register" method="POST">
+    <form id="registerForm" action="/register" method="POST">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br>
+        <input class="inputs" type="text" id="username" name="newUsername" required>
+        <span class="error-message" id="usernameError"></span><br>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br>
+        <label for="password1">Password:</label>
+        <input class="inputs" type="password" id="password1" name="newPassword1" required>
+        <span class="error-message" id="password1Error"></span><br>
+
+
+        <label for="password2">Password:</label>
+        <input class="inputs" type="password" id="password2" name="newPassword2" required>
+        <span class="error-message" id="password2Error"></span><br>
+
 
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
+        <input class="inputs" type="email" id="email" name="newEmail" required>
+        <span class="error-message" id="emailError"></span><br>
 
         <label for="age">Age:</label>
-        <input type="number" id="age" name="age" required><br>
+        <input class="inputs" type="number" id="age" name="newAge" required>
+        <span class="error-message" id="ageError"></span><br>
 
         <label for="question1">Question 1: What is your preferred gaming medium?</label>
-        <select id="question1" name="What is your preferred gaming medium?">
+        <select class="inputs" id="question1" name="What is your preferred gaming medium?">
             <option value="">Selection an answer...</option>
             <option value="PC">PC</option>
             <option value="Console">Console</option>
             <option value="Mobile">Mobile</option>
-        </select><br>
+        </select>
+        <span class="error-message" id="question1Error"></span><br>
+
 
         <label for="question2">Question 2: What is your favorite color?</label>
-        <select id="question2" name="What is your favorite color?">
+        <select class="inputs" id="question2" name="What is your favorite color?">
             <option value="">Selection an answer...</option>
             <option value="Blue">Blue</option>
             <option value="Red">Red</option>
             <option value="Yellow">Yellow</option>
-        </select><br>
+        </select>
+        <span class="error-message" id="question2Error"></span><br>
 
         <label for="question3">Question 3: What is your favorite gaming genre?</label>
-        <select id="question3" name="What is your favorite gaming genre?">
+        <select class="inputs" id="question3" name="What is your favorite gaming genre?">
             <option value="">Selection an answer...</option>
             <option value="FPS">FPS</option>
             <option value="Rogue-likes">Rogue-likes</option>
             <option value="Fighting Games">Fighting Games</option>
-        </select><br>
+        </select>
+        <span class="error-message" id="question3Error"></span><br>
+
 
         <button type="submit">Register</button>
     </form>

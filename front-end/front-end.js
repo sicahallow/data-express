@@ -1,11 +1,15 @@
 const express = require('express');
 const session= require('express-session')
+const bcrypt = require('bcrypt')
 const app = express();
 const PORT = 3000;
+const saltRounds = 10
 
 app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(express.static("public"))
+app.use(express.urlencoded({extended: true}))
 
 let sessionOptions={
     secret:"ChunckBullDog",
@@ -19,9 +23,35 @@ app.get('/register', (req, res) => {
     res.render('register');
 });
 
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
     let registeredUser = req.body
-    console.log(registeredUser)
+    let hashedPassword = ""
+
+    //example of bcrypt
+    try {
+        const salt = await bcrypt.genSalt(saltRounds)
+        hashedPassword = await bcrypt.hash(registeredUser.newPassword2, salt)
+
+    } catch (err){
+        console.error(err)
+    }
+
+    const answers = [
+        { "What is your preferred gaming medium?": registeredUser["What is your preferred gaming medium?"] },
+        { "What is your favorite color?": registeredUser["What is your favorite color?"] },
+        { "What is your favorite gaming genre?": registeredUser["What is your favorite gaming genre?"] }
+    ]
+
+    let userDataToSave = {
+        username: registeredUser.newUsername,
+        password: hashedPassword,
+        email: registeredUser.newEmail,
+        age: registeredUser.newAge,
+        answers: answers
+    }
+    //tests if userDataToSave is correct/functional
+    console.log(userDataToSave)
+
 })
 
 
