@@ -19,6 +19,11 @@ app.get('/register', (req, res) => {
     res.render('register');
 });
 
+app.post('/register', (req, res) => {
+    let registeredUser = req.body
+    console.log(registeredUser)
+})
+
 
 app.get('/login', (req, res) => {
     // console.log("LOGIN REQUEST",req.session.username);

@@ -15,20 +15,6 @@ app.use(express.urlencoded({extended: true}))
 app.use(cors({'origin': '*'}));
 
 //routes
-app.get('/questions', async (req, res) => {
-
-    try {
-        let questions = await DAL.getAllQuestions()
-
-        let response = {
-            results: questions
-        }
-        res.json(response)
-
-    } catch (error) {
-        console.log(error)
-    }
-})
 
 app.get('/getOneUser', async (req, res) => {
 
@@ -65,6 +51,10 @@ app.get('/getUsers', async (req, res) => {
     } catch (err) {
         console.log(err)
     }
+})
+
+app.get('/stats', async (req, res) => {
+
 })
 
 app.post('/register', async (req, res) => {

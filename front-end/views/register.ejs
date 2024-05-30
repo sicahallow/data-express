@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Register</title>
+    <script src="/js/client-validation.js" defer></script>
 </head>
 <body>
     <h1>Register</h1>
@@ -18,25 +20,28 @@
         <label for="age">Age:</label>
         <input type="number" id="age" name="age" required><br>
 
-        <label for="question1">Question 1:</label>
-        <select id="question1" name="what is your favorite type of dog?">
-            <option value="german shepards">Answer 1</option>
-            <option value="answer2">Answer 2</option>
-            <option value="answer3">Answer 3</option>
+        <label for="question1">Question 1: What is your preferred gaming medium?</label>
+        <select id="question1" name="What is your preferred gaming medium?">
+            <option value="">Selection an answer...</option>
+            <option value="PC">PC</option>
+            <option value="Console">Console</option>
+            <option value="Mobile">Mobile</option>
         </select><br>
 
-        <label for="question2">Question 2:</label>
-        <select id="question2" name="question2">
-            <option value="answer1">Answer 1</option>
-            <option value="answer2">Answer 2</option>
-            <option value="answer3">Answer 3</option>
+        <label for="question2">Question 2: What is your favorite color?</label>
+        <select id="question2" name="What is your favorite color?">
+            <option value="">Selection an answer...</option>
+            <option value="Blue">Blue</option>
+            <option value="Red">Red</option>
+            <option value="Yellow">Yellow</option>
         </select><br>
 
-        <label for="question3">Question 3:</label>
-        <select id="question3" name="question3">
-            <option value="answer1">Answer 1</option>
-            <option value="answer2">Answer 2</option>
-            <option value="answer3">Answer 3</option>
+        <label for="question3">Question 3: What is your favorite gaming genre?</label>
+        <select id="question3" name="What is your favorite gaming genre?">
+            <option value="">Selection an answer...</option>
+            <option value="FPS">FPS</option>
+            <option value="Rogue-likes">Rogue-likes</option>
+            <option value="Fighting Games">Fighting Games</option>
         </select><br>
 
         <button type="submit">Register</button>
