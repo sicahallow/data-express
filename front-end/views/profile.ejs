@@ -7,12 +7,19 @@
     <body>
         <header>
             <nav>
-                <a href="/profile">Home</a>
+                <a href="/">Home</a>
+                <a href="/profile">Profile</a>
                 <a href="/login">Login</a>
                 <a href="/logout">Logout</a>
             </nav>
         </header>
         <h1><%username%>'s profile</h1>
+        <p class="info">Email: <%= user.email %></p>
+        <p class="info">Age: <%= user.age %></p>
+        <p class="info">Question 1: <%= user.answers[0]["What is your preferred gaming medium?"] %></p>
+        <p class="info">Question 2: <%= user.answers[1]["What is your favorite color?"] %></p>
+        <p class="info">Question 3: <%= user.answers[2]["What is your favorite gaming genre?"] %></p>
+        <br>
         <footer>
             
         </footer>

@@ -17,7 +17,7 @@ let sessionOptions={
     cookie:{}
 }
 app.use(session(sessionOptions)) //makes session work
-app.get('/register', (req, res) => {
+app.get('/', (req, res) => {
     
     // console.log("Register REQUEST",req.session.username);
 
@@ -49,7 +49,7 @@ app.post('/register', async (req, res) => {
         username: registeredUser.newUsername,
         password: hashedPassword,
         email: registeredUser.newEmail,
-        age: registeredUser.newAge,
+        age: parseInt(registeredUser.newAge),
         answers: answers,
         userID: 0
     }
@@ -116,10 +116,27 @@ app.get('/profile', (req, res) => {
     res.render('profile');
 });
 
+app.get('/profile/:userId/edit', (req, res) => {
+    res.render('profileEdit');
+});
+
+app.post('/profile/:userId/edit', async (req, res) => {
+    
+    let url = "http://localhost:4000/Updateuser"
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(req.body),
+    });
+    res.render('profile');
+});
+
 app.get('/logout', (req, res) => {
     console.log("LOGOUT REQUEST");
-
-    res.redirect('/');
+     req.session.destroy
+    res.redirect('/login');
 });
 
 app.listen(PORT, (req, res) => {
