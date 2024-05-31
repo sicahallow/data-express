@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb') //add the package
+const { MongoClient, ObjectId } = require('mongodb') //add the package
 
 
 const uri = "mongodb+srv://dev:dev@mtm282.x4xusmm.mongodb.net/?retryWrites=true&w=majority&appName=MTM282"
@@ -79,6 +79,26 @@ exports.DAL = {
             const collection = database.collection(userCollection)
 
             await collection.insertOne(newUser)
+
+        } catch (err) {
+            console.log(err)
+
+        } finally {
+            await client.close()
+        }
+    },
+    updateUser: async function(userID, updatedData){
+        try {
+            await client.connect()
+            const database = client.db(dbName)
+            const collection = database.collection(userCollection)
+
+            await collection.updateOne(
+                {userID: userID},
+                {
+                    $set: updatedData
+                }
+            )
 
         } catch (err) {
             console.log(err)
