@@ -33,7 +33,7 @@ app.post('/login', async (req, res) => {
 
 })
 
-app.get('/profile/:userID', async (req, res) => {
+app.get('/getUserByUserID', async (req, res) => {
     const { userID } = req.params
     try {
         const user = await DAL.getUserByUserID(userID)
@@ -41,7 +41,7 @@ app.get('/profile/:userID', async (req, res) => {
         let response = {
             results: user
         }
-        res.json(user)
+        res.json(response)
 
     } catch (err){
         console.log(err)
@@ -54,6 +54,7 @@ app.get('/getUsers', async (req, res) => {
         const amountToReturn = parseInt(req.query.amount) || defaultUserAmount
 
         let users = await DAL.getAllUsers(amountToReturn)
+        console.log(users)
         if (amountToReturn > defaultUserAmount) {
             users = users.slice(0, defaultUserAmount)
         }
@@ -69,8 +70,27 @@ app.get('/getUsers', async (req, res) => {
     }
 })
 
-app.get('/stats', async (req, res) => {
+app.post('/updateUser', async (req, res) => {
+    const { userID, dataToUpdate } = req.body
+    try {
+        await DAL.updateUser(userID, dataToUpdate)
 
+    } catch (err) {
+        console.log(err)
+    }
+})
+
+app.get('/stats', async (req, res) => {
+    try {
+        let questionData = await DAL.getUserQuestionStats()
+        let response = {
+            results: questionData
+        }
+        res.json(response)
+
+    } catch (err) {
+        console.log(err)
+    }
 })
 
 app.post('/register', async (req, res) => {
