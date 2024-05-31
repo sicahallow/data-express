@@ -63,7 +63,10 @@ exports.DAL = {
             const database = client.db(dbName)
             const collection = database.collection(userCollection)
 
-            return await collection.find({limit: amount}).toArray()
+            let query = {}
+
+            const users = await collection.find(query,{limit: amount}).toArray()
+            return users
 
         } catch (err) {
             console.log(err)
@@ -113,7 +116,29 @@ exports.DAL = {
             const database = client.db(dbName)
             const collection = database.collection(userCollection)
 
+            const pipeline = [
+                {
+                    $unwind: "$answers"
+                },
+                {
+                    $facet: {
+                        "GamingMedium": [
+                            { $match: { "answers.What is your preferred gaming medium?": { $exists: true } } },
+                            { $group: { _id: "$answers.What is your preferred gaming medium?", count: { $sum: 1 } } }
+                        ],
+                        "FavoriteColor": [
+                            { $match: { "answers.What is your favorite color?": { $exists: true } } },
+                            { $group: { _id: "$answers.What is your favorite color?", count: { $sum: 1 } } }
+                        ],
+                        "FavoriteGenre": [
+                            { $match: { "answers.What is your favorite gaming genre?": { $exists: true } } },
+                            { $group: { _id: "$answers.What is your favorite gaming genre?", count: { $sum: 1 } } }
+                        ]
+                    }
+                }
+            ];
 
+            return await collection.aggregate(pipeline).toArray()
 
         } catch (err) {
             console.log(err)

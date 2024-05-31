@@ -54,6 +54,7 @@ app.get('/getUsers', async (req, res) => {
         const amountToReturn = parseInt(req.query.amount) || defaultUserAmount
 
         let users = await DAL.getAllUsers(amountToReturn)
+        console.log(users)
         if (amountToReturn > defaultUserAmount) {
             users = users.slice(0, defaultUserAmount)
         }
@@ -80,7 +81,16 @@ app.post('/updateUser', async (req, res) => {
 })
 
 app.get('/stats', async (req, res) => {
+    try {
+        let questionData = await DAL.getUserQuestionStats()
+        let response = {
+            results: questionData
+        }
+        res.json(response)
 
+    } catch (err) {
+        console.log(err)
+    }
 })
 
 app.post('/register', async (req, res) => {
