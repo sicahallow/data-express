@@ -100,13 +100,14 @@ app.post('/login', async (req, res) => {
         const hashedPassword = user.password;
 
 
-        if (user && bcrypt.compare(password, hashedPassword)) {
+        if (data && bcrypt.compare(password, hashedPassword)) {
             req.session.username = username;
             let model = {
                 username: user.username,
                 email: user.email,
                 age: user.age,
-                answers: user.answers
+                answers: user.answers,
+                userID: user.userID
             }
             res.render("profile", model);
         } else {
@@ -146,7 +147,7 @@ app.post('/profile/:userId/edit', async (req, res) => {
         },
         body: JSON.stringify(req.body),
     });
-    res.render('profile');
+    res.render('profileEdit');
 });
 
 app.get('/logout', (req, res) => {
