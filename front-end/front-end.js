@@ -101,6 +101,10 @@ app.post('/login', async (req, res) => {
 
         if (data && bcrypt.compare(password, hashedPassword)) {
             req.session.username = username;
+            req.session.userID = user.userID
+            req.session.email = user.email
+            req.session.age = user.age
+
             let model = {
                 username: user.username,
                 email: user.email,
@@ -139,9 +143,6 @@ app.get('/profile/:userId/edit', (req, res) => {
 app.post('/profile/:userId/edit', async (req, res) => {
     let registeredUser = req.body
     let hashedPassword = ""
-
-
-
     //example of bcrypt
     try {
         const salt = await bcrypt.genSalt(saltRounds)
@@ -156,26 +157,34 @@ app.post('/profile/:userId/edit', async (req, res) => {
         { "What is your favorite color?": registeredUser["What is your favorite color?"] },
         { "What is your favorite gaming genre?": registeredUser["What is your favorite gaming genre?"] }
     ]
-
     let userDataToSave = {
-        username: registeredUser.newUsername,
+        username: replaceIfEmpty(registeredUser.newUsername, req.session.username),
         password: hashedPassword,
-        email: registeredUser.newEmail,
-        age: parseInt(registeredUser.newAge),
+        email: replaceIfEmpty(registeredUser.newEmail, req.session.email),
+        age: replaceIfEmpty(parseInt(registeredUser.newAge), req.session.age),
         answers: answers,
-        userID: 0
+        userID: req.session.userID
     }
 
-
     let url = "http://localhost:4000/updateUser"
-    const response = await fetch(url, {
+    let body = {
+        userID: userDataToSave["userID"],
+        dataToUpdate: userDataToSave
+    }
+    console.log("body")
+    console.log(body)
+    const response2 = await fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userDataToSave),
+        body: JSON.stringify(body),
     });
-    res.render('profileEdit');
+    if (response2.ok){
+        res.redirect("/logout")
+    } else {
+        res.redirect("/logout")
+    }
 });
 app.get('/search', (req, res) => {
    
@@ -209,3 +218,8 @@ app.get('/logout', (req, res) => {
 app.listen(PORT, (req, res) => {
     console.log(`Express listening on http://localhost:${PORT}`);
 })
+
+//helper functions
+const replaceIfEmpty = (value, defaultValue) => {
+    return value === "" ? defaultValue : value;
+};

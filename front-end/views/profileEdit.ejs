@@ -12,12 +12,13 @@
         
     </nav>
     <link rel="stylesheet" href="/css/register.css"/>
+    <script src="/js/update-validation.js" defer></script>
 </head>
 <body>
     <h1>Profile Edit </h1>
     <form id="updateForm" action="/updateUser" method="POST">
         <label for="username">Username:</label>
-        <input class="inputs" type="text" id="username" name="newUsername" value="" required>
+        <input class="inputs" type="text" id="username" name="newUsername" value="">
         <span class="error-message" id="usernameError"></span><br>
 
         <label for="password1">Password:</label>
@@ -35,7 +36,7 @@
         <span class="error-message" id="emailError"></span><br>
 
         <label for="age">Age:</label>
-        <input class="inputs" type="number" id="age" name="newAge" value="" required>
+        <input class="inputs" type="number" id="age" name="newAge" value="">
         <span class="error-message" id="ageError"></span><br>
 
         <label for="question1">Question 1: What is your preferred gaming medium?</label>
