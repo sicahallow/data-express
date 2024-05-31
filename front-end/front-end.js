@@ -112,8 +112,15 @@ app.get('/profile', (req, res) => {
   if (!req.session.username) {
         return res.redirect('/login');
     }
-   
-    res.render('profile');
+    let model = {
+        username: registeredUser.newUsername,
+        password: hashedPassword,
+        email: registeredUser.newEmail,
+        age: parseInt(registeredUser.newAge),
+        answers: answers,
+        userID: 0
+    }
+    res.render('profile',model);
 });
 
 app.get('/profile/:userId/edit', (req, res) => {
