@@ -80,7 +80,7 @@ app.post('/updateUser', async (req, res) => {
     }
 })
 
-app.get('/stats', async (req, res) => {
+app.get('/api/stats', async (req, res) => {
     try {
         let questionData = await DAL.getUserQuestionStats()
         let response = {

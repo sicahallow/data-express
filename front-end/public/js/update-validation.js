@@ -18,9 +18,6 @@ const patterns = {
 updateForm.addEventListener('submit', (event) => {
     clearErrors()
 
-    //validate username
-    const isUsernameValid = validateInput(inputs[0], patterns.username, 'usernameError', 'Username must be at least 4 characters long and contain only letters and numbers.')
-
     //validate if passwords are both the same at abide by passwordPattern
     const isPasswordMatchValid = validatePasswordMatch(inputs[1], inputs[2], 'password2Error')
     const isPassword1Valid = validateInput(inputs[1], patterns.password, 'password1Error', 'Password must be 8-15 characters long and contain only letters, numbers, and special characters @*#&!?')
@@ -30,8 +27,6 @@ updateForm.addEventListener('submit', (event) => {
     //validate email
     const isEmailValid = validateInput(inputs[3], patterns.email, 'emailError', 'Please enter a valid email address.')
 
-    //validate age
-    const isAgeValid = validateAge(inputs[4], 'ageError')
 
     //validate select inputs
     const isQuestion1Valid = validateSelect(inputs[5], 'question1Error', 'Please select an answer for Question 1.')
@@ -40,7 +35,7 @@ updateForm.addEventListener('submit', (event) => {
     const isQuestionsValid = isQuestion1Valid && isQuestion2Valid && isQuestion3Valid
 
     //combine all validity checks
-    const formIsValid = isUsernameValid && isPasswordValid && isEmailValid && isAgeValid && isQuestionsValid
+    const formIsValid = isPasswordValid && isEmailValid && isQuestionsValid
 
     //prevent form submission if validation fails
     if (!formIsValid) {
