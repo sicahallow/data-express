@@ -4,17 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/login">Login</a>
-        <a href="/logout">Logout</a>
-        <a href="/search">Search</a>
-        
-    </nav>
     <link rel="stylesheet" href="/css/register.css"/>
     <script src="/js/update-validation.js" defer></script>
 </head>
+
 <body>
+    <header>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/profile">Profile</a>
+            <a href="/login">Login</a>
+            <a href="/logout">Logout</a>
+            <a href="/search">Search</a>
+        </nav>
+    </header>
     <h1>Profile Edit </h1>
     <form id="updateForm" action="/updateUser" method="POST">
         <label for="username">Username:</label>
