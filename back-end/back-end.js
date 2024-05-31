@@ -74,9 +74,10 @@ app.post('/updateUser', async (req, res) => {
     const { userID, dataToUpdate } = req.body
     try {
         await DAL.updateUser(userID, dataToUpdate)
-
+        res.status(200).send("User updated successfully.")
     } catch (err) {
         console.log(err)
+        res.status(500).send("Internal server error.")
     }
 })
 
