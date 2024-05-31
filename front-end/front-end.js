@@ -151,7 +151,7 @@ app.post('/profile/:userId/edit', async (req, res) => {
 
 app.get('/logout', (req, res) => {
     console.log("LOGOUT REQUEST");
-     req.session.destroy
+     req.session.destroy()
     res.redirect('/login');
 });
 
