@@ -25,7 +25,6 @@ app.get('/', (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-    const fetch = (await import('node-fetch')).default
     let url = "http://localhost:4000/register"
     let registeredUser = req.body
     let hashedPassword = ""
@@ -138,14 +137,43 @@ app.get('/profile/:userId/edit', (req, res) => {
 });
 
 app.post('/profile/:userId/edit', async (req, res) => {
-    
+    let registeredUser = req.body
+    let hashedPassword = ""
+
+
+
+    //example of bcrypt
+    try {
+        const salt = await bcrypt.genSalt(saltRounds)
+        hashedPassword = await bcrypt.hash(registeredUser.newPassword2, salt)
+
+    } catch (err){
+        console.error(err)
+    }
+
+    const answers = [
+        { "What is your preferred gaming medium?": registeredUser["What is your preferred gaming medium?"] },
+        { "What is your favorite color?": registeredUser["What is your favorite color?"] },
+        { "What is your favorite gaming genre?": registeredUser["What is your favorite gaming genre?"] }
+    ]
+
+    let userDataToSave = {
+        username: registeredUser.newUsername,
+        password: hashedPassword,
+        email: registeredUser.newEmail,
+        age: parseInt(registeredUser.newAge),
+        answers: answers,
+        userID: 0
+    }
+
+
     let url = "http://localhost:4000/updateUser"
     const response = await fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(req.body),
+        body: JSON.stringify(userDataToSave),
     });
     res.render('profileEdit');
 });
