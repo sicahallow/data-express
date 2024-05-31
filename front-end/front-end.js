@@ -139,7 +139,7 @@ app.get('/profile/:userId/edit', (req, res) => {
 
 app.post('/profile/:userId/edit', async (req, res) => {
     
-    let url = "http://localhost:4000/Updateuser"
+    let url = "http://localhost:4000/updateUser"
     const response = await fetch(url, {
         method: 'POST',
         headers: {
