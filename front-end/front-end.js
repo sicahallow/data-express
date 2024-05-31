@@ -177,6 +177,28 @@ app.post('/profile/:userId/edit', async (req, res) => {
     });
     res.render('profileEdit');
 });
+app.get('/search', (req, res) => {
+   
+    res.render('search', { searchResults: [], query: '' })
+});
+
+app.post("/search",async (req,res)=> {
+    const query = req.body.query
+    let body = {
+        username: query
+    }
+    let url = 'http://localhost:4000/login'
+    const response = await fetch(url,{
+        method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify(body)
+    })
+    const data = await response.json()
+
+    res.json(data)
+})
 
 app.get('/logout', (req, res) => {
     console.log("LOGOUT REQUEST");

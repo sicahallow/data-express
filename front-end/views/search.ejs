@@ -12,10 +12,22 @@
             <a href="/search">Search</a>
         </nav>
     </header>
-    <form action="/search" method="GET" class="search-bar">
+    <form action="/search" method="POST" class="search-bar">
         <input type="text" name="query" class="search-input" placeholder="Search profiles...">
         <button type="submit" class="search-button">Search</button>
+
     </form>
+    <body>
+        <h1>Search Results for "<%= query %>"</h1>
+        <ul>
+            <% if (searchResults.length > 0) { %>
+                <% searchResults.forEach(user => { %>
+                    <li><%= user.username %></li> <!-- Adjust this based on your user object structure -->
+                <% }); %>
+            <% } else if (query) { %>
+                <li>No users found.</li>
+            <% } %>
+        </ul>
     <footer>
         
     </footer>
