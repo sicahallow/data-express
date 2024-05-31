@@ -92,14 +92,23 @@ app.post('/login', async (req, res) => {
         },
         body: JSON.stringify(body),
     });
-    console.log("response good?" + response.ok)
+
     if (response.ok) {
-        const user = await response.json();
+        const data = await response.json();
+        let user = await data["results"][0]
+        console.log(data)
         const hashedPassword = user.password;
+
 
         if (user && bcrypt.compare(password, hashedPassword)) {
             req.session.username = username;
-            res.render("profile");
+            let model = {
+                username: user.username,
+                email: user.email,
+                age: user.age,
+                answers: user.answers
+            }
+            res.render("profile", model);
         } else {
             console.log("Invalid login");
             res.render('login');
