@@ -12,23 +12,38 @@ app.use(express.static("public"))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-
 app.use(cors({'origin': '*'}));
 
 //routes
-
-app.get('/getOneUser', async (req, res) => {
+app.post('/login', async (req, res) => {
 
     try {
-        let username = req.query.username
+        let username = req.body.username
         let user = await DAL.getUserByUsername(username)
 
         let response = {
+            count: user.length,
             results: user
         }
         res.json(response)
 
     } catch (err) {
+        console.log(err)
+    }
+
+})
+
+app.get('/profile/:userID', async (req, res) => {
+    const { userID } = req.params
+    try {
+        const user = await DAL.getUserByUserID(userID)
+
+        let response = {
+            results: user
+        }
+        res.json(user)
+
+    } catch (err){
         console.log(err)
     }
 
@@ -72,6 +87,7 @@ app.post('/register', async (req, res) => {
     //     userID: 0
     // }
     let newUser = req.body
+    console.log(newUser)
 
     try {
         if (newUser.userID === 0) {

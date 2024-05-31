@@ -39,6 +39,24 @@ exports.DAL = {
             await client.close()
         }
     },
+    getUserByUserID: async function(userID){
+        try {
+            await client.connect()
+            const database = client.db(dbName)
+            const collection = database.collection(userCollection)
+
+            let query = {}
+            if (userID) {
+                query.userID = userID
+            }
+            return await collection.find(query).toArray()
+
+        } catch (err) {
+            console.error(err);
+        } finally {
+            await client.close()
+        }
+    },
     getAllUsers: async function(amount){
         try {
             await client.connect()

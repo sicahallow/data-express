@@ -2,7 +2,7 @@ const express = require('express');
 const session= require('express-session')
 const bcrypt = require('bcrypt')
 const app = express();
-const PORT = 3000;
+const PORT = 3000
 const saltRounds = 10
 
 app.set('view engine', 'ejs');
@@ -75,29 +75,36 @@ app.get('/login', (req, res) => {
 
 
 app.post('/login', async (req, res) => {
-    console.log("LOGIN POSTED", req.body);
-    let url = "http://localhost:4000"
-    let username = req.body.username
-    let password = req.body.password
+    const loginData = req.body
+    console.log("LOGIN POSTED", loginData);
+    let url = "http://localhost:4000/login"
+    let username = loginData.username
+    let password = loginData.password
 
-const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ username, password }),
-});
-if (response.ok) {
-    const user = await response.json();
-    const hashedPassword = user.password;
+    const body = {
+        username: username
+    }
 
-    if (bcrypt.compareSync(password, hashedPassword)) {
-        req.session.username = username;
-        res.redirect("/profile");
-    } else {
-        console.log("Invalid login");
-        res.render('login');
-    }}
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+    });
+    console.log("response good?" + response.ok)
+    if (response.ok) {
+        const user = await response.json();
+        const hashedPassword = user.password;
+
+        if (user && bcrypt.compare(password, hashedPassword)) {
+            req.session.username = username;
+            res.render("profile");
+        } else {
+            console.log("Invalid login");
+            res.render('login');
+        }
+    }
 });
 app.get('/profile', (req, res) => {
     
